@@ -1,0 +1,46 @@
+{
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"displaydayofweek" : 
+			{
+				"index" : 1,
+				"order" : 101,
+				"text" : "Display day of week",
+				"type" : "bool",
+				"value" : true
+			},
+			"rotatetime" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "Rotate time",
+				"type" : "bool",
+				"value" : true
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"timeoffset" : 
+			{
+				"fraction" : false,
+				"index" : 2,
+				"max" : 12,
+				"min" : -12,
+				"order" : 102,
+				"text" : "Time offset",
+				"type" : "slider",
+				"value" : 0
+			}
+		}
+	},
+	"title" : "Wallpaper1",
+	"type" : "web",
+	"version" : 0
+}
