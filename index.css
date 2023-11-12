@@ -1,6 +1,8 @@
 :root {
     --counter-size: 4vw;
-    --ripple-size: 15vw;
+    --ripple-size-small: 8vw;
+    --ripple-size-medium: 15vw;
+    --ripple-size-big: 20vw;
 }
 
 @font-face {
@@ -19,9 +21,8 @@ body {
     margin: 0;
     background-color: #000;
     color: #fff;
-	background: linear-gradient(-45deg, #eeca52, #156662, #c023d5, #741029);
-	background-size: 400% 400%;
-    animation: bg-movement 12s ease-in-out infinite;
+    background-size: cover;
+    background-position: center;
     overflow: hidden;
 }
 
@@ -39,18 +40,60 @@ body {
 	}
 }
 
+.gradient-fill {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+	background: linear-gradient(-45deg, #eeca52, #156662, #c023d5, #741029, #57972e, #108ec9);
+	background-size: 600% 600%;
+    animation: bg-movement 12s ease-in-out infinite;
+}
+
+#background-vid {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.semitransparent {
+    opacity: 0.5;
+}
+
 .ripple {
     position: absolute;
     background-color: #fff;
     border-radius: 100%;
-    width: var(--ripple-size);
-    height: var(--ripple-size);
     opacity: 0%;
     transform: translate(-50%, -50%);
-    animation: circle-keys 2s ease-in-out;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
 }
 
-@keyframes circle-keys {
+.ripple.quick {
+    animation-duration: 0.8s;
+}
+
+.ripple.small {
+    width: var(--ripple-size-small);
+    height: var(--ripple-size-small);
+    animation-name: circle-keys-small;
+}
+
+.ripple.medium {
+    width: var(--ripple-size-medium);
+    height: var(--ripple-size-medium);
+    animation-name: circle-keys-medium;
+}
+
+.ripple.big {
+    width: var(--ripple-size-big);
+    height: var(--ripple-size-big);
+    animation-name: circle-keys-big;
+}
+
+@keyframes circle-keys-small {
     0% {
         width: 0;
         height: 0;
@@ -58,8 +101,42 @@ body {
     }
 
     70% {
-        width: var(--ripple-size);
-        height: var(--ripple-size);
+        width: var(--ripple-size-small);
+        height: var(--ripple-size-small);
+    }
+
+    100% {
+        opacity: 0%;
+    }
+}
+
+@keyframes circle-keys-medium {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 40%;
+    }
+
+    70% {
+        width: var(--ripple-size-medium);
+        height: var(--ripple-size-medium);
+    }
+
+    100% {
+        opacity: 0%;
+    }
+}
+
+@keyframes circle-keys-big {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 40%;
+    }
+
+    70% {
+        width: var(--ripple-size-big);
+        height: var(--ripple-size-big);
     }
 
     100% {

@@ -1,8 +1,17 @@
+var values = {
+    timeOffset: 0,
+    rotationEnabled: true,
+    autoRipple: true,
+    weekday: document.getElementById("weekday"),
+    date: document.getElementById("date"),
+    gradientFill: document.querySelector(".gradient-fill"),
+    bgVideo: document.querySelector("#background-vid")
+};
+
 const time = document.getElementById("time");
-const date = document.getElementById("date");
-const weekday = document.getElementById("weekday");
 const rotationLimit = 100;
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const rippleSizes = ["small", "medium", "big"];
 const hourMs = 3600000;
 
 var seconds = new Counter();
@@ -10,10 +19,6 @@ var minutes = new Counter();
 var hours = new Counter();
 
 var lastRippleTime = 0;
-
-var timeOffset = 0;
-var rotationEnabled = true;
-var autoRipple = true;
 
 time.append(
     hours.element(),
@@ -25,42 +30,28 @@ time.append(
 
 document.addEventListener("mousemove", onMouseMove);
 document.addEventListener("mousedown", (e) => {
-    if (!autoRipple) spawnRipple(e.clientX, e.clientY);
+    if (!values.autoRipple) spawnRipple(e.clientX, e.clientY);
 });
 
-window.wallpaperPropertyListener = {
-    applyUserProperties: function(properties) {
-        if (properties.rotatetime) {
-            rotationEnabled = properties.rotatetime.value;
-
-            if (!rotationEnabled && date.hasAttribute("style")) {
-                date.removeAttribute("style");
-            }
-        }
-
-        if (properties.displaydayofweek) {
-            weekday.style.display = properties.displaydayofweek.value ? "block" : "none";
-        }
-
-        if (properties.timeoffset) {
-            timeOffset = properties.timeoffset.value * hourMs;
-        }
-    },
-};
+if (onPropertiesUpdate) {
+    window.wallpaperPropertyListener = {
+        applyUserProperties: (props) => onPropertiesUpdate(props, values),
+    };
+}
 
 window.requestAnimationFrame(frameUpdate);
 
 function frameUpdate(_time) {
-    let date = new Date(Date.now() + timeOffset);
+    let date = new Date(Date.now() + values.timeOffset);
 
     updateCounter(seconds, date.getSeconds());
     updateCounter(minutes, date.getMinutes());
     updateCounter(hours, date.getHours());
 
-    if (weekday.style.display != "none")
-        weekday.textContent = days[date.getDay()];
+    if (values.weekday.style.display != "none")
+        values.weekday.textContent = days[date.getDay()];
 
-    if (autoRipple && _time - lastRippleTime >= 300) {
+    if (values.autoRipple && _time - lastRippleTime >= 300) {
         lastRippleTime = _time;
         spawnRipple();
     }
@@ -69,7 +60,7 @@ function frameUpdate(_time) {
 }
 
 function onMouseMove(e) {
-    if (!rotationEnabled) return;
+    if (!values.rotationEnabled) return;
 
     const x = e.clientX / window.innerWidth - 0.5;
     const y = -(e.clientY / window.innerHeight - 0.5);
@@ -77,19 +68,30 @@ function onMouseMove(e) {
     const rotationX = y * rotationLimit;
     const rotationY = x * rotationLimit;
 
-    date.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+    values.date.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
 }
 
 function spawnRipple(x, y) {
     let ripple = document.createElement("div");
-    ripple.setAttribute("class", "ripple");
+    let sizeIndex = rippleSizes.length - 1;
 
-    ripple.style.top = y ? y + "px" : Math.floor(Math.random() * 100) + "%";
-    ripple.style.left = x ? x + "px" : Math.floor(Math.random() * 100) + "%";
+    ripple.classList.add("ripple");
+
+    if (values.autoRipple) sizeIndex = randomNumber(rippleSizes.length);
+    else ripple.classList.add("quick");
+
+    ripple.classList.add(rippleSizes[sizeIndex]);
+
+    ripple.style.top = y ? y + "px" : randomNumber(101) + "%";
+    ripple.style.left = x ? x + "px" : randomNumber(101) + "%";
 
     ripple.addEventListener("animationend", () => ripple.remove());
 
     document.body.appendChild(ripple);
+}
+
+function randomNumber(limit) {
+    return Math.floor(Math.random() * limit);
 }
 
 function updateCounter(counter, value) {
