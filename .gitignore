@@ -1,3 +1,5 @@
 .vs
 *.min.js
 *.min.css
+bundle.js
+index_bundle.html

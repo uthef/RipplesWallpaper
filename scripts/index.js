@@ -1,6 +1,6 @@
 // constants
 const time = document.getElementById("time");
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const hourMs = 3600000;
 
 // declarations
@@ -17,13 +17,19 @@ var values = {
 var propertyApplier = new PropertyApplier(values);
 var wallpaperEffects = new WallpaperEffects();
 
-var seconds = new Counter();
-var minutes = new Counter();
-var hours = new Counter();
+window.wallpaperPropertyListener = {
+    applyUserProperties: function(prop) {
+        propertyApplier.updateProperties(prop);
+    }
+};
+
+let initialDate = getDate();
+var seconds = new Counter(initialDate.getSeconds());
+var minutes = new Counter(initialDate.getMinutes());
+var hours = new Counter(initialDate.getHours());
 
 var lastRippleTime = 0;
 
-// initialization
 time.append(
     hours.element(),
     Counter.separator(":"),
@@ -39,17 +45,11 @@ document.addEventListener("mousedown", (e) => {
     if (!values.autoRipple) wallpaperEffects.spawnRipple(e.clientX, e.clientY, values.autoRipple);
 });
 
-window.wallpaperPropertyListener = {
-    applyUserProperties: function(prop) {
-        propertyApplier.updateProperties(prop);
-    }
-};
-
 window.requestAnimationFrame(frameUpdate);
 
 // declarations
 function frameUpdate(_time) {
-    let date = new Date(Date.now() + values.timeOffset);
+    let date = getDate();
 
     wallpaperEffects.updateCounter(seconds, date.getSeconds());
     wallpaperEffects.updateCounter(minutes, date.getMinutes());
@@ -64,4 +64,8 @@ function frameUpdate(_time) {
     }
 
     window.requestAnimationFrame(frameUpdate);
+}
+
+function getDate() {
+    return new Date(Date.now() + values.timeOffset);
 }
