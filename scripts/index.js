@@ -13,6 +13,7 @@ const rotationLimit = 100;
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const rippleSizes = ["small", "medium", "big"];
 const hourMs = 3600000;
+const propertyApplier = new PropertyApplier(values);
 
 var seconds = new Counter();
 var minutes = new Counter();
@@ -33,11 +34,11 @@ document.addEventListener("mousedown", (e) => {
     if (!values.autoRipple) spawnRipple(e.clientX, e.clientY);
 });
 
-if (onPropertiesUpdate) {
-    window.wallpaperPropertyListener = {
-        applyUserProperties: (props) => onPropertiesUpdate(props, values),
-    };
-}
+window.wallpaperPropertyListener = {
+    applyUserProperties: function(prop) {
+        propertyApplier.updateProperties(prop);
+    }
+};
 
 window.requestAnimationFrame(frameUpdate);
 
