@@ -1,3 +1,12 @@
+// constants
+const time = document.getElementById("time");
+const rotationLimit = 100;
+const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const rippleSizes = ["small", "medium", "big"];
+const hourMs = 3600000;
+const propertyApplier = new PropertyApplier(values);
+
+// declarations
 var values = {
     timeOffset: 0,
     rotationEnabled: true,
@@ -8,19 +17,13 @@ var values = {
     bgVideo: document.querySelector("#background-vid")
 };
 
-const time = document.getElementById("time");
-const rotationLimit = 100;
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-const rippleSizes = ["small", "medium", "big"];
-const hourMs = 3600000;
-const propertyApplier = new PropertyApplier(values);
-
 var seconds = new Counter();
 var minutes = new Counter();
 var hours = new Counter();
 
 var lastRippleTime = 0;
 
+// initialization
 time.append(
     hours.element(),
     Counter.separator(":"),
@@ -42,6 +45,7 @@ window.wallpaperPropertyListener = {
 
 window.requestAnimationFrame(frameUpdate);
 
+// declarations
 function frameUpdate(_time) {
     let date = new Date(Date.now() + values.timeOffset);
 
