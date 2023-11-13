@@ -1,6 +1,6 @@
 class PropertyApplier {
-    constructor(values) {
-        this.values = values;
+    constructor(valuesRef) {
+        this.values = valuesRef;
     }
 
     updateProperties(properties) {
