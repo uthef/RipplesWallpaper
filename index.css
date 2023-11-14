@@ -49,6 +49,11 @@ body {
     animation: bg-movement 12s ease-in-out infinite;
 }
 
+#audio-layer {
+    width: 100%;
+    height: 100%;
+}
+
 #background-vid {
     position: fixed;
     right: 0;

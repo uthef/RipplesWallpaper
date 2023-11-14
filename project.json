@@ -1,13 +1,13 @@
 {
 	"file" : "index.html",
-	"general" : 
+	"general" :
 	{
-		"properties" : 
+		"properties" :
 		{
-			"background" : 
+			"background" :
 			{
 				"index" : 4,
-				"options" : 
+				"options" :
 				[
 					{
 						"label" : "Gradient only",
@@ -27,7 +27,7 @@
 				"type" : "combo",
 				"value" : "0"
 			},
-			"backgroundimage" : 
+			"backgroundimage" :
 			{
 				"index" : 5,
 				"order" : 105,
@@ -35,7 +35,7 @@
 				"type" : "file",
 				"value" : ""
 			},
-			"backgroundvideo" : 
+			"backgroundvideo" :
 			{
 				"fileType" : "video",
 				"index" : 6,
@@ -44,7 +44,7 @@
 				"type" : "file",
 				"value" : ""
 			},
-			"displaydayofweek" : 
+			"displaydayofweek" :
 			{
 				"index" : 1,
 				"order" : 101,
@@ -52,7 +52,7 @@
 				"type" : "bool",
 				"value" : true
 			},
-			"houroffset" : 
+			"houroffset" :
 			{
 				"fraction" : false,
 				"index" : 2,
@@ -63,26 +63,26 @@
 				"type" : "slider",
 				"value" : 0
 			},
-			"ripplemode" : 
+			"ripplemode" :
 			{
 				"index" : 3,
-				"options" : 
+				"options" :
 				[
 					{
 						"label" : "Auto",
 						"value" : "true"
 					},
 					{
-						"label" : "Triggered by mouse",
+						"label" : "Mouse click",
 						"value" : "false"
 					}
 				],
 				"order" : 103,
-				"text" : "Ripple mode",
+				"text" : "Ripple trigger mode",
 				"type" : "combo",
 				"value" : "true"
 			},
-			"rotatetime" : 
+			"rotatetime" :
 			{
 				"index" : 0,
 				"order" : 100,
@@ -90,7 +90,7 @@
 				"type" : "bool",
 				"value" : true
 			},
-			"schemecolor" : 
+			"schemecolor" :
 			{
 				"order" : 0,
 				"text" : "ui_browse_properties_scheme_color",

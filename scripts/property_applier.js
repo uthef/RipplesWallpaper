@@ -57,10 +57,9 @@ class PropertyApplier {
     }
 
     setVideoVisibility(value, element) {
-        console.log("video");
-        if (value === true && this.videoPath !== "") {
+        if (value === true) {
             element.style.display = "block";
-            element.src = this.getFilePath(this.videoPath);
+            element.src = this.videoPath === "" ? "samples/particles.webm" : this.getFilePath(this.videoPath);
             this.setGradientFillTransparency(true);
             return;
         }
@@ -71,8 +70,9 @@ class PropertyApplier {
     }
 
     setBackgroundVisibility(value) {
-        if (value === true && this.imagePath !== "") {
-            document.body.style.backgroundImage = `url('${this.getFilePath(this.imagePath)}')`;
+        if (value === true) {
+            let path = this.imagePath === "" ? "samples/mountains.jpg" : this.getFilePath(this.imagePath);
+            document.body.style.backgroundImage = `url('${path}')`;
             this.setGradientFillTransparency(true);
             console.log("image");
             return;

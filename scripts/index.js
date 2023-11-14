@@ -1,5 +1,6 @@
 // constants
 const time = document.getElementById("time");
+const audioLayerContext = document.getElementById("audio-layer").getContext("2d");
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const hourMs = 3600000;
 
@@ -8,6 +9,7 @@ var values = {
     timeOffset: 0,
     rotationEnabled: true,
     autoRipple: true,
+    drawAudio: true,
     weekday: document.getElementById("weekday"),
     date: document.getElementById("date"),
     gradientFill: document.querySelector(".gradient-fill"),
@@ -15,13 +17,8 @@ var values = {
 };
 
 var propertyApplier = new PropertyApplier(values);
+var audioAnalyzer = new AudioAnalyzer();
 var wallpaperEffects = new WallpaperEffects();
-
-window.wallpaperPropertyListener = {
-    applyUserProperties: function(prop) {
-        propertyApplier.updateProperties(prop);
-    }
-};
 
 let initialDate = getDate();
 var seconds = new Counter(initialDate.getSeconds());
@@ -29,6 +26,17 @@ var minutes = new Counter(initialDate.getMinutes());
 var hours = new Counter(initialDate.getHours());
 
 var lastRippleTime = 0;
+
+window.wallpaperPropertyListener = {
+    applyUserProperties: function(prop) {
+        propertyApplier.updateProperties(prop);
+    }
+};
+
+window.wallpaperRegisterAudioListener(function(data) {
+    if (values.drawAudio === true)
+        audioAnalyzer.draw(data, audioLayerContext);
+});
 
 time.append(
     hours.element(),
