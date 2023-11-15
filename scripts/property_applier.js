@@ -1,27 +1,40 @@
 class PropertyApplier {
-    constructor(valuesRef) {
-        this.values = valuesRef;
+    constructor(settingsRef, elementsRef) {
+        this.settings = settingsRef;
+        this.elements = elementsRef;
     }
 
     updateProperties(properties) {
         if (properties.rotatetime) {
-            this.values.rotationEnabled = properties.rotatetime.value;
+            this.settings.rotationEnabled = properties.rotatetime.value;
 
-            if (!this.values.rotationEnabled && this.values.date.hasAttribute("style")) {
-                this.values.date.removeAttribute("style");
+            if (!this.settings.rotationEnabled && this.elements.date.hasAttribute("style")) {
+                this.elements.date.removeAttribute("style");
             }
         }
 
+        if (properties.audioprocessing) {
+            this.settings.drawAudio = false;
+
+            if (this.settings.drawAudio === false) {
+                this.elements.audioLayer.analyzer.clear();
+            }
+        }
+
+        if (properties.language) {
+            this.settings.language = properties.language.value;
+        }
+
         if (properties.displaydayofweek) {
-            this.values.weekday.style.display = properties.displaydayofweek.value ? "block" : "none";
+            this.elements.weekday.style.display = properties.displaydayofweek.value ? "block" : "none";
         }
 
         if (properties.houroffset) {
-            this.values.timeOffset = properties.houroffset.value * hourMs;
+            this.settings.timeOffset = properties.houroffset.value * hourMs;
         }
 
         if (properties.ripplemode) {
-            this.values.autoRipple = properties.ripplemode.value.toLowerCase() === "true";
+            this.settings.autoRipple = properties.ripplemode.value.toLowerCase() === "true";
         }
 
         if (properties.backgroundimage) {
@@ -40,18 +53,18 @@ class PropertyApplier {
             switch (this.mode) {
                 // Gradient only
                 case 0:
-                    this.setVideoVisibility(false, this.values.bgVideo);
+                    this.setVideoVisibility(false, this.elements.bgVideo);
                     this.setBackgroundVisibility(false);
                     break;
                 // Gradient + image
                 case 1:
-                    this.setVideoVisibility(false, this.values.bgVideo);
+                    this.setVideoVisibility(false, this.elements.bgVideo);
                     this.setBackgroundVisibility(true);
                     break;
                 // Gradient + video
                 case 2:
                     this.setBackgroundVisibility(false);
-                    this.setVideoVisibility(true, this.values.bgVideo);
+                    this.setVideoVisibility(true, this.elements.bgVideo);
             }
         }
     }
@@ -74,7 +87,6 @@ class PropertyApplier {
             let path = this.imagePath === "" ? "samples/mountains.jpg" : this.getFilePath(this.imagePath);
             document.body.style.backgroundImage = `url('${path}')`;
             this.setGradientFillTransparency(true);
-            console.log("image");
             return;
         }
 
@@ -88,13 +100,13 @@ class PropertyApplier {
 
     setGradientFillTransparency(value) {
         if (value === true) {
-            if (!this.values.gradientFill.classList.contains("semitransparent")) {
-                this.values.gradientFill.classList.add("semitransparent");
+            if (!this.elements.gradientFill.classList.contains("semitransparent")) {
+                this.elements.gradientFill.classList.add("semitransparent");
             }
 
             return;
         }
 
-        this.values.gradientFill.classList.remove("semitransparent");
+        this.elements.gradientFill.classList.remove("semitransparent");
     }
 }

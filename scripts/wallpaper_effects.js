@@ -2,14 +2,18 @@ class WallpaperEffects {
     rotationLimit = 100;
     rippleSizes = ["small", "medium", "big"];
 
-    rotateTime(clientX, clientY) {
+    constructor(dateElement) {
+        this.date = dateElement;
+    }
+
+    rotateTime(clientX, clientY, date) {
         const x = clientX / window.innerWidth - 0.5;
         const y = -(clientY / window.innerHeight - 0.5);
 
         const rotationX = y * this.rotationLimit;
         const rotationY = x * this.rotationLimit;
 
-        values.date.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+        this.date.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
     }
 
     spawnRipple(x, y, autoRipple) {
